@@ -5,6 +5,7 @@ using UnityEngine;
 public class Powers_Orbitor : MonoBehaviour
 {
     public Transform center;
+    public float axialTilt;
     public float orbitRadius;
     public float orbitTilt;
     public float orbitTime;
@@ -22,12 +23,21 @@ public class Powers_Orbitor : MonoBehaviour
         {
             //Getting the orbit position
             orbitAge += (Time.deltaTime / orbitTime);
-            Vector3 offset = Powers_AnimMath.SpotOnCircleXYZ(orbitRadius, orbitAge, orbitTilt);
+            Vector3 offset = Powers_AnimMath.SpotOnCircleXYZ(orbitRadius, orbitAge);
+
+            //Getting the orbital tilt, using the center's rotation as a base
+            Quaternion orbitTiltFactor = Quaternion.Euler(orbitTilt, 1, 1);
+            offset = orbitTiltFactor * offset;
+
             transform.position = center.position + offset;
         }
 
         //Getting the orbit rotation
         rotationAge += ((Time.deltaTime / rotationTime) * 60);
-        transform.eulerAngles = new Vector3(transform.eulerAngles.x, rotationAge, transform.eulerAngles.z);
+        transform.eulerAngles = new Vector3(0, rotationAge, transform.rotation.z);
+
+        //Apply the axial tilt using world space
+        transform.Rotate(axialTilt, 0, 0, Space.World);
+
     }
 }

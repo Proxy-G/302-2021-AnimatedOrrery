@@ -47,12 +47,12 @@ public static class Powers_AnimMath
 
         return offset;
     }
-    public static Vector3 SpotOnCircleXYZ(float radius, float currentAngle, float orbitTilt)
+    public static Vector3 SpotOnCircleXYZ(float radius, float currentAngle)
     {
         Vector3 offset = new Vector3();
 
         offset.x = Mathf.Sin(currentAngle) * radius;
-        offset.y = Mathf.Sin(currentAngle) * orbitTilt;
+        offset.y = Mathf.Sin(currentAngle);
         offset.z = Mathf.Cos(currentAngle) * radius;
 
         return offset;
